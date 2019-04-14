@@ -1,4 +1,4 @@
-class BorderParser
+class BorderParser // get a stream of characters and searches for a value between two given substrings
 {
 private:
   int         count;
@@ -10,6 +10,7 @@ private:
   int         bLen2;
 
 public:
+  // buffer
   char* buffer;
   // parsing result
   char* data;
@@ -17,8 +18,13 @@ public:
   bool  upd();        
   // write 1 char to buffer and update data, returns TRUE if data has been updated
   bool  read(char c);
-  // unite parsers buffers
+  // combines buffers of parsers
   void connect(BorderParser parser); 
+  /*
+  b1 - first border
+  b2 - second border
+  nodata - string that will be returned before parsing
+  */
   BorderParser(const char* b1, const char* b2, const char* nodata);
   ~BorderParser();
   static bool parse(BorderParser& parser,

@@ -26,6 +26,7 @@ needleIndex(char* str, const char* need, int startPos)
   return -1;
 }
 
+
 BorderParser::BorderParser(const char* b1, const char* b2, const char* nodata)
   : border1(b1)
   , border2(b2)
