@@ -72,8 +72,19 @@ namespace common_things
 	public:
 		Alarm();
 		~Alarm();		
+		/*
+		Ставит таймер, который будет вызывать функцию threadFunc с интервалом delay в отдельном потоке.
+		threadFunc должна принимать 1 аргумент типа int.
+		state - аргумент, который будет передан функции при каждой итерации цикла
+		*/
 		void start(void * (*threadFunc)(int state), unsigned long long delay, int state);
+		/*
+		Совершает последний вызов функции с аргументом state
+		*/
 		void stop(int state);
+		/*
+		Устанавливает состояние state
+		*/
 		void setState(int state);
 	private:
 		Time time;
