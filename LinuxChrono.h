@@ -5,6 +5,7 @@
 #include <chrono>
 #include <unistd.h>
 #include <pthread.h> 
+#include <functional>
 
 namespace common_things
 {
@@ -77,7 +78,8 @@ namespace common_things
 		threadFunc должна принимать 1 аргумент типа int.
 		state - аргумент, который будет передан функции при каждой итерации цикла
 		*/
-		void start(void * (*threadFunc)(int state), unsigned long long delay, int state);
+		typedef std::function<void(int)> T;
+		void start(T threadFunc, unsigned long long delay, int state);
 		/*
 		Совершает последний вызов функции с аргументом state
 		*/
@@ -90,8 +92,8 @@ namespace common_things
 		Time time;
 		pthread_mutex_t mutex;
 		pthread_t thread;
-		void* (*threadFunc_new)(int state);
-		void* (*threadFunc)(int state);
+		T threadFunc_new;
+		T threadFunc;
 		void* alarmFunc();
 		unsigned long long delay_new;
 		unsigned long long delay;
@@ -103,7 +105,6 @@ namespace common_things
 		bool threadFlag;
 		bool newThread;
 	};
-	
 	
 }
 
@@ -231,7 +232,7 @@ common_things::Alarm::alarmFunc()
 	pthread_mutex_unlock(&mutex);
 }
 void
-common_things::Alarm::start(void * (*threadFunc)(int state), unsigned long long delay, int state)
+common_things::Alarm::start(T threadFunc, unsigned long long delay, int state)
 {
 	newThread = true;
 	this->threadFunc_new = threadFunc;
